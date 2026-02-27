@@ -1,19 +1,7 @@
 return {
   {
-    "github/copilot.vim",
-    branch = "release",
-    event = "InsertEnter",
-    config = function()
-      -- disable tab if you use it for something else (e.g. nvim-cmp)
-      vim.g.copilot_no_tab_map = true
-      vim.keymap.set("i", "<C-j>", 'copilot#Accept("\\<CR>")', {
-        expr = true,
-        replace_keycodes = false,
-      })
-    end,
-  },
-  {
     "olimorris/codecompanion.nvim",
+    lazy = false,
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
@@ -24,16 +12,38 @@ return {
       { "<leader>ci", "<cmd>CodeCompanion<cr>", desc = "CodeCompanion Inline", mode = { "n", "v" } },
     },
     opts = {
-      strategies = {
-        chat = { adapter = "copilot" },
-        inline = { adapter = "copilot" },
-        agent = { adapter = "copilot" },
+      prompt_library = {
+          markdown = {
+            dirs = {
+              vim.fn.getcwd() .. "/.prompts", -- Can be relative
+              "~/.dotfiles/.config/prompts", -- Or absolute paths
+          },
+        },
       },
-      -- NOTE: The log_level is in `opts.opts`
+      adapters = {
+        http = {
+          ollama = function()
+            return require("codecompanion.adapters").extend("ollama", {
+              env = {
+                url = "http://100.88.189.25:11434",
+              },
+              parameters = {
+                sync = true,
+              },
+            })
+          end,
+        },
+      },
+      strategies = {
+        chat = { adapter = "ollama" },
+        inline = { adapter = "ollama" },
+        agent = { adapter = "ollama" },
+      },
       opts = {
-        log_level = "DEBUG", -- or "TRACE"
+        log_level = "DEBUG",
       },
     },
   },
 }
+
 

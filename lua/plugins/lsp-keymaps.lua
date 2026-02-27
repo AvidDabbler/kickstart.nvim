@@ -91,10 +91,7 @@ return {
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration,     opts("Go to Declaration"))
         vim.keymap.set("n", "gd", goto_definition_preferring_source, opts("Go to Definition"))
         vim.keymap.set("n", "gK", vim.lsp.buf.signature_help,  opts("Signature Help"))
-
         vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, opts("Signature Help"))
-
-        vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts("Code Action"))
 
         -- Rename symbol
         vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, opts("Rename"))
