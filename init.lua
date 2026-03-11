@@ -73,6 +73,7 @@ require('lazy').setup({
   -- TESTING
   require 'plugins.octo',
   require 'plugins.codecompanion',
+  require 'plugins.timebomb',
 
 }, {
   ui = {
